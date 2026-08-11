@@ -1,9 +1,0 @@
-CC = gcc
-TARGET = server
-SRCS = server.c handlers/req_handler.c handlers/res_handler.c handlers/response_status_line_handler.c handlers/header_handler.c handlers/routing.c
-
-$(TARGET): $(SRCS)
-	$(CC) -I. -o $(TARGET) $(SRCS)
-
-clean:
-	rm -f $(TARGET)
