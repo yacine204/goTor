@@ -1,10 +1,10 @@
 package main
 
 import (
+
 	"log"
 	"os"
-	"torrent/utils/bencode"
-
+	"torrent/utils"
 )
 
 func main()  {
@@ -24,11 +24,9 @@ func main()  {
 	data := make([]byte, fileSize)
 	_, err = file.Read(data)
 
-	pos := 0
-	value, err := bencode.ParseValue(data, &pos)
-	if err!= nil {
-		log.Fatalf("Error: %v", err)
-	}
-	bencode.PrintTorrent(value, 0)
+
+	
+	metadata, err := utils.BuildMetaData(data, 0)
+	utils.PrintMetaData(metadata)
 
 }
