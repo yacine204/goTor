@@ -199,7 +199,17 @@ func BuildMetaData(buffer []byte,depth int) (*core.TorrentMetaData, error){
 		}
 
 		if pieces, ok := infoNode.Dict["pieces"]; ok{
-			infoData.Pieces = pieces.Str
+			rawBytes := []byte(pieces.Str)
+
+			if len(rawBytes)%20==0{
+				totalPieces := len(rawBytes)/20
+				parsedPieces := make([][20]byte, totalPieces)
+
+				for i:=0 ; i<totalPieces; i++{
+					copy(parsedPieces[i][:], rawBytes[i*20:(i+1)*20])
+				}
+				infoData.Pieces = parsedPieces
+			}
 		}
 
 		if name, ok := infoNode.Dict["name"]; ok {

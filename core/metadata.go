@@ -10,7 +10,7 @@ type TorrentMetaData struct {
 
 type Info struct{
 	Piece_length int64
-	Pieces string
+	Pieces [][20]byte
 	Name string 
 	Length int64
 	Files []FileItem
