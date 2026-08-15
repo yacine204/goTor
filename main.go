@@ -32,7 +32,7 @@ func main()  {
 	for i, announce := range metadata.Announce_list{
 		fmt.Printf("[Announce %d]: %s\n", i, announce)
 	}
-	peers, err := utils.ConnectToPeers(metadata)
+	peers, err := utils.ConnectToTrackers(metadata)
 	if err!=nil {
 		log.Fatal(err)
 	}
