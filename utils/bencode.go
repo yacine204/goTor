@@ -258,7 +258,7 @@ func PrintMetaData(metadata *core.TorrentMetaData){
 
 	fmt.Println("Info:")
 	fmt.Printf("%sName: %s\n", indent+"  ", metadata.Info.Name)
-	fmt.Printf("%sPieces Length (Total): %q\n", indent+"  ", metadata.Info.Pieces) 
+	// fmt.Printf("%sPieces Length (Total): %q\n", indent+"  ", metadata.Info.Pieces) 
 	fmt.Printf("%sLength: %d\n", indent+"  ", metadata.Info.Length)
 	fmt.Printf("%sPiece Length: %d\n", indent+"  ", metadata.Info.Piece_length)
 

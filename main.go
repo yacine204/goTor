@@ -1,14 +1,14 @@
 package main
 
 import (
-
+	"fmt"
 	"log"
 	"os"
 	"torrent/utils"
 )
 
 func main()  {
-	file, err := os.Open("ELDEN RING [FitGirl Repack].torrent")
+	file, err := os.Open("The First Berserker - Khazan [FitGirl Repack].torrent")
 
 	if err!= nil {
 		log.Fatal(err)
@@ -25,8 +25,31 @@ func main()  {
 	_, err = file.Read(data)
 
 
+	pos := 0
+	metadata, err := utils.BuildMetaData(data, pos)
+
+	// fmt.Printf("Announce: %s\n", metadata.Announce)
+	// for i, announce := range metadata.Announce_list{
+	// 	fmt.Printf("[Announce %d]: %s\n", i, announce)
+	// }
+
+	peers, err := utils.ConnectToPeers(metadata)
+	if err!=nil {
+		log.Fatal(err)
+	}
 	
-	metadata, err := utils.BuildMetaData(data, 0)
-	utils.PrintMetaData(metadata)
+	for i, peer := range *peers {
+		fmt.Printf("[%d] IP: %s, Port: %s\n", i, peer.Ip, peer.Port)
+	}
+
+	
+
+	// for protocol, conns := range connections.List{
+	// 	for i, conn := range conns{
+	// 		fmt.Printf("[%s %d]: %s\n", protocol, i, conn.LocalAddr())
+	// 	}
+	// }
+	
+	
 
 }
