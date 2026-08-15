@@ -6,6 +6,7 @@ type TorrentMetaData struct {
 	Announce string 
 	Announce_list []string
 	Info *Info
+	RawInfoBytes []byte
 }
 
 type Info struct{
@@ -14,6 +15,7 @@ type Info struct{
 	Name string 
 	Length int64
 	Files []FileItem
+
 }
 
 type FileItem struct{

@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bytes"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -175,6 +176,12 @@ func BuildMetaData(buffer []byte,depth int) (*core.TorrentMetaData, error){
 		return nil, fmt.Errorf("%v\n",err)
 	}
 	metadata := core.TorrentMetaData{}
+	rawInfoBytes, err := extractRawInfoBytes(buffer)
+	
+	if err!=nil{
+		return nil, fmt.Errorf("failed to extract info bytes: %v", err)
+	}
+	metadata.RawInfoBytes = rawInfoBytes
 
 	if announceNode, ok := root.Dict["announce"]; ok {
 		metadata.Announce = announceNode.Str
@@ -245,6 +252,101 @@ func BuildMetaData(buffer []byte,depth int) (*core.TorrentMetaData, error){
 	}
 
 	return &metadata, nil
+}
+
+func extractRawInfoBytes(data []byte) ([]byte, error) {
+	key := []byte("4:info")
+	start := bytes.Index(data, key)
+	if start == -1 {
+		return nil, fmt.Errorf("info key not found")
+	}
+	start += len(key)
+
+	if data[start] != 'd' {
+		return nil, fmt.Errorf("info value is not a dictionary")
+	}
+
+	end, err := skipBencodeDict(data, start)
+	if err != nil {
+		return nil, err
+	}
+
+	return data[start:end], nil
+}
+
+func skipBencodeDict(data []byte, pos int) (int, error) {
+	if pos >= len(data) || data[pos] != 'd' {
+		return 0, fmt.Errorf("expected dict at pos %d", pos)
+	}
+	pos++
+	for pos < len(data) && data[pos] != 'e' {
+		var err error
+		pos, err = skipBencodeAny(data, pos) // key 
+		if err != nil {
+			return 0, err
+		}
+		pos, err = skipBencodeAny(data, pos) // value
+		if err != nil {
+			return 0, err
+		}
+	}
+	if pos >= len(data) {
+		return 0, fmt.Errorf("unterminated dict")
+	}
+	return pos + 1, nil // include the 'e'
+}
+
+func skipBencodeAny(data []byte, pos int) (int, error) {
+	if pos >= len(data) {
+		return 0, fmt.Errorf("unexpected end of data")
+	}
+	switch {
+	case data[pos] == 'i': // integer
+		end := pos + 1
+		for end < len(data) && data[end] != 'e' {
+			end++
+		}
+		if end >= len(data) {
+			return 0, fmt.Errorf("malformed integer")
+		}
+		return end + 1, nil
+
+	case data[pos] == 'l': // list
+		pos++
+		for pos < len(data) && data[pos] != 'e' {
+			var err error
+			pos, err = skipBencodeAny(data, pos)
+			if err != nil {
+				return 0, err
+			}
+		}
+		if pos >= len(data) {
+			return 0, fmt.Errorf("unterminated list")
+		}
+		return pos + 1, nil
+
+	case data[pos] == 'd': // dict
+		return skipBencodeDict(data, pos)
+
+	default: // string: N:...
+		start := pos
+		for pos < len(data) && data[pos] != ':' {
+			pos++
+		}
+		if pos >= len(data) {
+			return 0, fmt.Errorf("malformed string length")
+		}
+		length, err := strconv.Atoi(string(data[start:pos]))
+		if err != nil {
+			return 0, err
+		}
+		pos++ // skip ':'
+		pos += length
+		if pos > len(data) {
+			return 0, fmt.Errorf("string exceeds data bounds")
+		}
+		return pos, nil
+	}
 }
 
 func PrintMetaData(metadata *core.TorrentMetaData){

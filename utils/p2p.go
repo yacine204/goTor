@@ -60,41 +60,17 @@ func StripConn(announce *string) (*AnounceFragment , error){
 		scheme: AnnConnType(url.Scheme),
 		host: url.Hostname(),
 		port: port,
-		fullAddr: net.JoinHostPort(url.Hostname(), url.Port()),
+		fullAddr: net.JoinHostPort(url.Hostname(), port),
 	}
 	return announceFragment, nil
 
 }	
 
-func buildInfoDict(info *core.Info) []byte {
-    bencoded := "d"
-
-
-    // length
-    bencoded += "6:lengthi" + strconv.FormatInt(info.Length, 10) + "e"
-
-    // name
-    bencoded += "4:name" + strconv.Itoa(len(info.Name)) + ":" + info.Name
-
-    // piece length
-    bencoded += "12:piece lengthi" + strconv.FormatInt(info.Piece_length, 10) + "e"
-
-    // pieces
-    piecesBytes := []byte{}
-    for _, piece := range info.Pieces {
-        piecesBytes = append(piecesBytes, piece[:]...)
-    }
-    bencoded += "6:pieces" + strconv.Itoa(len(piecesBytes)) + ":" + string(piecesBytes)
-
-    bencoded += "e"
-
-    return []byte(bencoded)
-}
 
 func ConnectToPeers(torrent *core.TorrentMetaData) (*[]PeerNode, error){
 	// udp doesnt work...
 	// todo : look into Distributed Hash Table protocol
-
+	// todo : add goroutines to trackers
 	annConnList := &AnnConn{
 		List : make(map[AnnConnType][]net.Conn),
 
@@ -154,12 +130,11 @@ func ConnectToPeers(torrent *core.TorrentMetaData) (*[]PeerNode, error){
 				binary.BigEndian.PutUint32(annReq[8:12], 1)
 				binary.BigEndian.PutUint32(annReq[12:16], transactionID)
 
-				infoBytes := buildInfoDict(torrent.Info)
 
 				h := sha1.New()
-				h.Write(infoBytes)
+				h.Write(torrent.RawInfoBytes)
 				info_hash := h.Sum(nil)
-
+				fmt.Printf("hash: %d", info_hash[:])
 				copy(annReq[16:36], info_hash)
 
 				// todo: check client_id dynamic value for qbit and utor
