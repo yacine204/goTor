@@ -1,7 +1,5 @@
 package core
 
-
-
 type TorrentMetaData struct {
 	Announce string 
 	Announce_list []string

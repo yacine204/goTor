@@ -4,8 +4,10 @@ import (
 	"crypto/sha1"
 	"encoding/binary"
 	"fmt"
+	"io"
 	"math/rand/v2"
 	"net"
+	"net/http"
 	"net/url"
 	"strconv"
 	"time"
@@ -221,8 +223,93 @@ func ConnectToPeers(torrent *core.TorrentMetaData) (*[]PeerNode, error){
 				}
 				allPeers = append(allPeers, peerMap...)
 			}
+		case HTTP, HTTPS:
+			h := sha1.New()
+			h.Write(torrent.RawInfoBytes)
+			info_hash := h.Sum(nil)
+			peerID := "-TR0001-" + fmt.Sprintf("%012d", rand.Int64()%1000000000000)
+
+			query := url.Values{}
+			query.Set("info_hash", string(info_hash))
+			query.Set("peer_id", peerID)
+			query.Set("uploaded", "0")
+			query.Set("downloaded", "0")
+			query.Set("left", fmt.Sprintf("%d", torrent.Info.Length))
+			query.Set("port", announceFragments.port)
+			query.Set("event", "started")
+			query.Set("compact", "1")
+
+			announceURL := fmt.Sprintf("%s?%s", announce, query.Encode())
+
+			resp, err := http.Get(announceURL)
+
+			if err!=nil{
+				fmt.Printf("error: %s\n", err)
+        		continue
+			}
+			defer resp.Body.Close()
+
+			body, err := io.ReadAll(resp.Body)
+			
+			if err != nil {
+				fmt.Printf("error: %s\n", err)
+				continue
+			}
+
+			pos:=0
+			bencodeNode, err := ParseValue(body, &pos)
+
+			if err!=nil{
+				fmt.Printf("error parsing bencode: %s\n", err)
+        		continue
+			}
+
+			if bencodeNode.Kind != KindDict {
+				return nil, fmt.Errorf("response is not a dictionary")
+			}
+
+			if failureNode, ok := bencodeNode.Dict["failure reason"]; ok {
+				return nil, fmt.Errorf("tracker failure: %s", failureNode.Str)
+			}
+
+			peersNode, ok := bencodeNode.Dict["peers"]
+			if !ok {
+				return nil, fmt.Errorf("no peers in response")
+			}
+
+			var peers []PeerNode
+
+			if peersNode.Kind == KindString {
+			
+				peersData := []byte(peersNode.Str)
+				for i := 0; i+6 <= len(peersData); i += 6 {
+					ip := net.IP(peersData[i : i+4]).String()
+					port := binary.BigEndian.Uint16(peersData[i+4 : i+6])
+					peers = append(peers, PeerNode{Ip: ip, Port: strconv.Itoa(int(port))})
+				}
+			} else if peersNode.Kind == KindList {
+				
+				for _, peerNode := range peersNode.List {
+					if peerNode.Kind == KindDict {
+						var ip, port string
+						if ipNode, ok := peerNode.Dict["ip"]; ok && ipNode.Kind == KindString {
+							ip = ipNode.Str
+						}
+						if portNode, ok := peerNode.Dict["port"]; ok && portNode.Kind == KindInt {
+							port = strconv.Itoa(int(portNode.Int))
+						}
+						if ip != "" && port != "" {
+							peers = append(peers, PeerNode{Ip: ip, Port: port})
+						}
+					}
+				}
+				
+			}
+			allPeers = append(allPeers, peers...)
+				
+			}
 		}
-	}
+			
 
 	return &allPeers, nil
 
