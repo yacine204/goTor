@@ -28,17 +28,25 @@ func main()  {
 	pos := 0
 	metadata, err := utils.BuildMetaData(data, pos)
 
-	fmt.Printf("Announce: %s\n", metadata.Announce)
-	for i, announce := range metadata.Announce_list{
-		fmt.Printf("[Announce %d]: %s\n", i, announce)
-	}
-	peers, err := utils.ConnectToTrackers(metadata)
-	if err!=nil {
-		log.Fatal(err)
-	}
+
+	// for i := range metadata.Announce_list{
+	// 	peer, err := utils.ConnectToTracker(metadata, i)
+	// 	if err!=nil{
+	// 		fmt.Printf("error %s\n", err)
+	// 		continue
+	// 	}
+	// 	fmt.Printf("Peers from announce %d :\n",i)
+	// 	for j := range peer{
+	// 		fmt.Printf("peer %d: %s:%s", j,peer[j].Ip, peer[j].Port)
+	// 	}
+		
+	// }
+
+
+	peers := utils.ConnectTrackersAsync(metadata)
 	
-	for i, peer := range *peers {
-		fmt.Printf("[%d] IP: %s, Port: %s\n", i, peer.Ip, peer.Port)
-	}	
+	for i, peer := range peers {
+		fmt.Printf("peer %d: %s %s\n", i, peer.Ip, peer.Port)
+	}
 
 }

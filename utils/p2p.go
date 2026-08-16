@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"sync"
 	"time"
 	"torrent/core"
 )
@@ -264,13 +265,9 @@ func GetHTTPsPeers(torrent *core.TorrentMetaData, announce string) ([]PeerNode, 
 }
 
 func ConnectToTrackers(torrent *core.TorrentMetaData) (*[]PeerNode, error){
-	// udp doesnt work...
-	// todo : look into Distributed Hash Table protocol
-	// todo : add goroutines to trackers
-	annConnList := &AnnConn{
-		List : make(map[AnnConnType][]net.Conn),
-
-	}
+	// opens a tcp/udp connection depending on the tracker scheme
+	// dials all the trackers of the torrent 
+	// returns all peers (ip, port)
 	var allPeers []PeerNode
 	for  _, announce := range torrent.Announce_list{
 		
@@ -291,8 +288,7 @@ func ConnectToTrackers(torrent *core.TorrentMetaData) (*[]PeerNode, error){
 			fmt.Printf("error: %s\n", err)
 			continue
 		}
-		annConnList.List[announceFragments.scheme] = append(annConnList.List[announceFragments.scheme],conn)	
-		
+
 		switch announceFragments.scheme{
 		case UDP:
 			peersUDP, err := GetUDPPeers(torrent, announceFragments, conn)
@@ -318,5 +314,75 @@ func ConnectToTrackers(torrent *core.TorrentMetaData) (*[]PeerNode, error){
 }
 
 
-// todo : ConnectToTracker (torrent *core.TorrentMetaData) (*PeerNode, error) {}
-// conencts to singular tracker to apply goroutines for a faster peer extraction
+func ConnectToTracker(torrent *core.TorrentMetaData, trackerIdx int) ([]PeerNode, error){
+	var allPeers []PeerNode
+	announce := torrent.Announce_list[trackerIdx]
+	announceFragments, err := StripConn(&announce)
+	if err!=nil{
+		return nil, err
+	}
+
+	networkType := string(announceFragments.scheme)
+	if announceFragments.scheme == HTTP || announceFragments.scheme == HTTPS {
+		networkType = "tcp"
+	}else{
+		networkType = "udp"
+	}
+
+	conn, err := net.DialTimeout(networkType, announceFragments.fullAddr, 5*time.Second)
+
+	if err!=nil{
+		fmt.Printf("error: %s\n", err)
+		return nil, err
+	}
+	defer conn.Close()
+
+	switch announceFragments.scheme{
+	case UDP:
+		peersUDP, err := GetUDPPeers(torrent, announceFragments, conn)
+		if err!=nil {
+			fmt.Printf("error: %s\n", err)
+		}
+		allPeers = append(allPeers, peersUDP...)
+	
+	case HTTP, HTTPS:
+		peersHTTPs, err := GetHTTPsPeers(torrent, announce)
+		if err!=nil{
+			fmt.Printf("error: %s\n", err)
+		}
+		allPeers = append(allPeers, peersHTTPs...)
+	}
+	
+
+	return allPeers, nil
+}
+
+func ConnectTrackersAsync(torrent *core.TorrentMetaData) ([]PeerNode){
+	var wg sync.WaitGroup
+	var mutex sync.Mutex
+	var allPeers []PeerNode
+
+
+	for i := range torrent.Announce_list{
+		wg.Add(1)
+
+		go func(idx int){
+			defer wg.Done()
+
+			peers, err := ConnectToTracker(torrent, idx)
+			if err!=nil{
+				fmt.Printf("error: %s\n", err)
+				return
+			}
+
+			mutex.Lock()
+			allPeers = append(allPeers, peers...)
+			mutex.Unlock()
+
+			fmt.Printf("Announce %d got %d peers\n", idx, len(peers))
+		}(i)
+		
+	}
+	wg.Wait()
+	return allPeers
+}
