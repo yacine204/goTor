@@ -357,7 +357,9 @@ func ConnectToTracker(torrent *core.TorrentMetaData, trackerIdx int) ([]PeerNode
 	return allPeers, nil
 }
 
+
 func ConnectTrackersAsync(torrent *core.TorrentMetaData) ([]PeerNode){
+	// conccurently connect to all trackers returning a list of PeerNode {Ip, Port}
 	var wg sync.WaitGroup
 	var mutex sync.Mutex
 	var allPeers []PeerNode
@@ -384,5 +386,21 @@ func ConnectTrackersAsync(torrent *core.TorrentMetaData) ([]PeerNode){
 		
 	}
 	wg.Wait()
+	allPeers = _eliminateDuplicatePeers(allPeers)
 	return allPeers
+}
+
+func _eliminateDuplicatePeers(peers []PeerNode) ([]PeerNode){
+	seen := make(map[string]bool, len(peers))
+	var uniquePeers []PeerNode
+
+	for _, peer := range peers{
+		// deduplicate by ip (trackers overloads ports to distribute malware)
+		// todo : check for suspicious peers and exclude them
+		if !seen[peer.Ip]{
+			seen[peer.Ip] = true
+			uniquePeers = append(uniquePeers, peer)
+		}	
+	}
+	return uniquePeers
 }

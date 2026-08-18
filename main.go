@@ -49,4 +49,10 @@ func main()  {
 		fmt.Printf("peer %d: %s %s\n", i, peer.Ip, peer.Port)
 	}
 
+	peerConn, err := utils.ConnectToPeer(peers)
+	if err!=nil{
+		fmt.Printf("err: %s\n", err)
+	}
+
+	fmt.Printf("%s %s\n", peerConn.Peer.Ip, peerConn.Peer.Port)
 }
