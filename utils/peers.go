@@ -16,6 +16,9 @@ import (
 
 var peerID = "-TR0001-" + fmt.Sprintf("%012d", rand.N(1000000000000))
 
+var failedPeers = make(map[string]bool)
+var failedPeersMutex sync.Mutex
+
 type PeerConn struct {
 	Conn   net.Conn
 	Peer   PeerNode
@@ -50,6 +53,9 @@ func ConnectToPeer(peers []PeerNode) (PeerConn, error) {
 
 			conn, err := net.DialTimeout("tcp", net.JoinHostPort(p.Ip, p.Port), 5*time.Second)
 			if err != nil {
+				failedPeersMutex.Lock()
+				failedPeers[p.Ip+":"+p.Port] = true
+				failedPeersMutex.Unlock()
 				fmt.Printf("error: %s\n", err)
 				return
 			}
@@ -80,24 +86,57 @@ func ConnectToPeer(peers []PeerNode) (PeerConn, error) {
 
 
 func ConnectAndHandshake(torrent *core.TorrentMetaData) (*PeerConn, error) {
-	peers := ConnectTrackersAsync(torrent)
+	for{
+		peers := ConnectTrackersAsync(torrent)
 
-	peerConn, err := ConnectToPeer(peers)
-	if err != nil {
-		return nil, fmt.Errorf("failed to connect to peer: %w", err)
-	}
+		var filteredPeers []PeerNode
+		failedPeersMutex.Lock()
 
-	_, ok, err := BitTorrentHandShake(&peerConn, torrent)
-	if err != nil {
-		peerConn.Conn.Close()
-		return nil, fmt.Errorf("handshake error: %w", err)
-	}
-	if !ok {
-		peerConn.Conn.Close()
-		return nil, fmt.Errorf("handshake rejected by peer")
-	}
+		for _, p := range peers{
+			key := p.Ip + ":" + p.Port
+			if !failedPeers[key]{
+				filteredPeers = append(filteredPeers, p)
+			}
+		}
 
-	return &peerConn, nil
+		if len(filteredPeers) == 0{
+			fmt.Printf("all peers failed, resetting failed list\n")
+			for k:=range failedPeers{
+				delete(failedPeers, k)
+			}
+			filteredPeers = peers
+		}
+
+		failedPeersMutex.Unlock()
+
+		peerConn, err := ConnectToPeer(filteredPeers)
+		if err != nil {
+			return nil, fmt.Errorf("failed to connect to peer: %w", err)
+		}
+
+		_, ok, err := BitTorrentHandShake(&peerConn, torrent)
+		if err != nil {
+			peerConn.Conn.Close()
+			failedPeersMutex.Lock()
+			failedPeers[peerConn.Peer.Ip+":"+peerConn.Peer.Port] = true
+			failedPeersMutex.Unlock()
+			fmt.Printf("handshake error: %s, retrying\n", err)
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		if !ok {
+			peerConn.Conn.Close()
+			failedPeersMutex.Lock()
+			failedPeers[peerConn.Peer.Ip+":"+peerConn.Peer.Port] = true
+			failedPeersMutex.Unlock()
+			fmt.Printf("handshake rejected, retrying\n")
+			time.Sleep(1 * time.Second)
+			continue
+		}
+
+		return &peerConn, nil
+	}
+	
 }
 
 func BitTorrentHandShake(peer *PeerConn, torrent *core.TorrentMetaData) (*net.Conn, bool, error) {
@@ -147,6 +186,9 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 
 	reconnect := func(reason string) bool {
 		fmt.Printf("%s reconnecting to a new peer\n", reason)
+		failedPeersMutex.Lock()
+		failedPeers[peerConn.Peer.Ip+":"+peerConn.Peer.Port] = true
+		failedPeersMutex.Unlock()
 		peerConn.Conn.Close()
 
 		newPeer, err := ConnectAndHandshake(torrent)

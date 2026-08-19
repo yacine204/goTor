@@ -197,6 +197,11 @@ func BuildMetaData(buffer []byte,depth int) (*core.TorrentMetaData, error){
 		}
 		metadata.Announce_list = list
 	}
+
+	if len(metadata.Announce_list) == 0 && metadata.Announce != "" {
+		metadata.Announce_list = []string{metadata.Announce}
+	}
+
 	
 	if infoNode, ok := root.Dict["info"]; ok && infoNode.Kind == KindDict{
 		infoData := &core.Info{}

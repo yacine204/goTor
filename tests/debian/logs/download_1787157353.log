@@ -1,0 +1,832 @@
+Announce 0 got 50 peers
+error: dial tcp 83.228.243.176:56105: connect: connection refused
+error: dial tcp 185.11.217.249:6968: connect: connection refused
+error: dial tcp 71.191.30.47:29925: connect: no route to host
+error: dial tcp 62.78.45.249:51413: connect: connection refused
+error: dial tcp 79.201.161.170:51413: i/o timeout
+error: dial tcp 76.221.149.15:51413: i/o timeout
+error: dial tcp 143.105.208.162:6881: i/o timeout
+error: dial tcp 68.134.11.237:63270: i/o timeout
+error: dial tcp 65.175.200.69:51413: i/o timeout
+error: dial tcp 99.179.93.185:59131: i/o timeout
+error: dial tcp 87.104.244.142:6881: i/o timeout
+error: dial tcp 77.33.175.70:51413: i/o timeout
+error: dial tcp 170.106.119.126:6881: i/o timeout
+error: dial tcp 185.84.190.4:51413: i/o timeout
+error: dial tcp 177.221.230.221:63767: i/o timeout
+error: dial tcp 79.163.148.139:16881: i/o timeout
+error: dial tcp 86.102.95.10:60341: i/o timeout
+error: dial tcp 76.169.205.65:51765: i/o timeout
+error: dial tcp 193.32.126.158:60484: i/o timeout
+error: dial tcp 182.184.206.142:6881: i/o timeout
+error: dial tcp 103.69.224.115:39301: i/o timeout
+error: dial tcp 95.181.1.116:49166: i/o timeout
+error: dial tcp 212.159.12.203:51413: i/o timeout
+error: dial tcp 92.185.41.44:22424: i/o timeout
+error: dial tcp 93.232.58.77:51413: i/o timeout
+error: dial tcp 189.174.177.69:51413: i/o timeout
+error: dial tcp 77.27.63.112:51413: i/o timeout
+error: dial tcp 92.116.100.111:51413: i/o timeout
+error: dial tcp 66.111.61.219:56881: i/o timeout
+error: dial tcp 130.44.171.228:61310: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 79.127.184.153:37307: i/o timeout
+error: dial tcp 78.122.11.37:6950: i/o timeout
+error: dial tcp 167.59.237.38:6881: i/o timeout
+error: dial tcp 153.66.179.234:61720: i/o timeout
+error: dial tcp 89.37.95.201:6881: i/o timeout
+Connected to peer: 51.159.34.55:1044
+Handshake successful!
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+requested piece 0 block at offset 0
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+requested piece 0 block at offset 0
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 0 (16384 bytes)
+saved block for piece 0 at offset 0
+requested piece 0 block at offset 16384
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 0 (16384 bytes)
+saved block for piece 0 at offset 0
+requested piece 0 block at offset 16384
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 16384 (16384 bytes)
+saved block for piece 0 at offset 16384
+requested piece 0 block at offset 32768
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 16384 (16384 bytes)
+saved block for piece 0 at offset 16384
+requested piece 0 block at offset 32768
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 32768 (16384 bytes)
+saved block for piece 0 at offset 32768
+requested piece 0 block at offset 49152
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 32768 (16384 bytes)
+saved block for piece 0 at offset 32768
+requested piece 0 block at offset 49152
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 49152 (16384 bytes)
+saved block for piece 0 at offset 49152
+requested piece 0 block at offset 65536
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 49152 (16384 bytes)
+saved block for piece 0 at offset 49152
+requested piece 0 block at offset 65536
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 65536 (16384 bytes)
+saved block for piece 0 at offset 65536
+requested piece 0 block at offset 81920
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 65536 (16384 bytes)
+saved block for piece 0 at offset 65536
+requested piece 0 block at offset 81920
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 81920 (16384 bytes)
+saved block for piece 0 at offset 81920
+requested piece 0 block at offset 98304
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 81920 (16384 bytes)
+saved block for piece 0 at offset 81920
+requested piece 0 block at offset 98304
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 98304 (16384 bytes)
+saved block for piece 0 at offset 98304
+requested piece 0 block at offset 114688
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 98304 (16384 bytes)
+saved block for piece 0 at offset 98304
+requested piece 0 block at offset 114688
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 114688 (16384 bytes)
+saved block for piece 0 at offset 114688
+requested piece 0 block at offset 131072
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 114688 (16384 bytes)
+saved block for piece 0 at offset 114688
+requested piece 0 block at offset 131072
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 131072 (16384 bytes)
+saved block for piece 0 at offset 131072
+requested piece 0 block at offset 147456
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 131072 (16384 bytes)
+saved block for piece 0 at offset 131072
+requested piece 0 block at offset 147456
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 147456 (16384 bytes)
+saved block for piece 0 at offset 147456
+requested piece 0 block at offset 163840
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 147456 (16384 bytes)
+saved block for piece 0 at offset 147456
+requested piece 0 block at offset 163840
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 163840 (16384 bytes)
+saved block for piece 0 at offset 163840
+requested piece 0 block at offset 180224
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 163840 (16384 bytes)
+saved block for piece 0 at offset 163840
+requested piece 0 block at offset 180224
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 180224 (16384 bytes)
+saved block for piece 0 at offset 180224
+requested piece 0 block at offset 196608
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 180224 (16384 bytes)
+saved block for piece 0 at offset 180224
+requested piece 0 block at offset 196608
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 196608 (16384 bytes)
+saved block for piece 0 at offset 196608
+requested piece 0 block at offset 212992
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 196608 (16384 bytes)
+saved block for piece 0 at offset 196608
+requested piece 0 block at offset 212992
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 212992 (16384 bytes)
+saved block for piece 0 at offset 212992
+requested piece 0 block at offset 229376
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 212992 (16384 bytes)
+saved block for piece 0 at offset 212992
+requested piece 0 block at offset 229376
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 229376 (16384 bytes)
+saved block for piece 0 at offset 229376
+requested piece 0 block at offset 245760
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 229376 (16384 bytes)
+saved block for piece 0 at offset 229376
+requested piece 0 block at offset 245760
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 245760 (16384 bytes)
+saved block for piece 0 at offset 245760
+piece 0 is complete
+piece 0 verified!
+sent Have for piece 0
+requesting next piece: 1
+requested piece 1 block at offset 0
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 0 block at offset 245760 (16384 bytes)
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 0 (16384 bytes)
+saved block for piece 1 at offset 0
+requested piece 1 block at offset 16384
+received message length: 1
+message ID: 0 (payload size: 0 bytes)
+Got Choke reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 109.196.64.57:6881: connect: connection refused
+error: dial tcp 71.114.78.45:51413: connect: connection refused
+error: dial tcp 213.118.224.47:6881: i/o timeout
+error: dial tcp 154.47.24.202:51413: i/o timeout
+error: dial tcp 45.147.236.92:6881: i/o timeout
+error: dial tcp 143.244.47.77:3126: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+requested piece 1 block at offset 16384
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+requested piece 1 block at offset 16384
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 16384 (16384 bytes)
+saved block for piece 1 at offset 16384
+requested piece 1 block at offset 32768
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 16384 (16384 bytes)
+saved block for piece 1 at offset 16384
+requested piece 1 block at offset 32768
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 32768 (16384 bytes)
+saved block for piece 1 at offset 32768
+requested piece 1 block at offset 49152
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 32768 (16384 bytes)
+saved block for piece 1 at offset 32768
+requested piece 1 block at offset 49152
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 49152 (16384 bytes)
+saved block for piece 1 at offset 49152
+requested piece 1 block at offset 65536
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 49152 (16384 bytes)
+saved block for piece 1 at offset 49152
+requested piece 1 block at offset 65536
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 65536 (16384 bytes)
+saved block for piece 1 at offset 65536
+requested piece 1 block at offset 81920
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 65536 (16384 bytes)
+saved block for piece 1 at offset 65536
+requested piece 1 block at offset 81920
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 81920 (16384 bytes)
+saved block for piece 1 at offset 81920
+requested piece 1 block at offset 98304
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 81920 (16384 bytes)
+saved block for piece 1 at offset 81920
+requested piece 1 block at offset 98304
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 98304 (16384 bytes)
+saved block for piece 1 at offset 98304
+requested piece 1 block at offset 114688
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 98304 (16384 bytes)
+saved block for piece 1 at offset 98304
+requested piece 1 block at offset 114688
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 114688 (16384 bytes)
+saved block for piece 1 at offset 114688
+requested piece 1 block at offset 131072
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 114688 (16384 bytes)
+saved block for piece 1 at offset 114688
+requested piece 1 block at offset 131072
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 131072 (16384 bytes)
+saved block for piece 1 at offset 131072
+requested piece 1 block at offset 147456
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 131072 (16384 bytes)
+saved block for piece 1 at offset 131072
+requested piece 1 block at offset 147456
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 147456 (16384 bytes)
+saved block for piece 1 at offset 147456
+requested piece 1 block at offset 163840
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 147456 (16384 bytes)
+saved block for piece 1 at offset 147456
+requested piece 1 block at offset 163840
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 163840 (16384 bytes)
+saved block for piece 1 at offset 163840
+requested piece 1 block at offset 180224
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 163840 (16384 bytes)
+saved block for piece 1 at offset 163840
+requested piece 1 block at offset 180224
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 180224 (16384 bytes)
+saved block for piece 1 at offset 180224
+requested piece 1 block at offset 196608
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 180224 (16384 bytes)
+saved block for piece 1 at offset 180224
+requested piece 1 block at offset 196608
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 196608 (16384 bytes)
+saved block for piece 1 at offset 196608
+requested piece 1 block at offset 212992
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 196608 (16384 bytes)
+saved block for piece 1 at offset 196608
+requested piece 1 block at offset 212992
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 212992 (16384 bytes)
+saved block for piece 1 at offset 212992
+requested piece 1 block at offset 229376
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 212992 (16384 bytes)
+saved block for piece 1 at offset 212992
+requested piece 1 block at offset 229376
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 229376 (16384 bytes)
+saved block for piece 1 at offset 229376
+requested piece 1 block at offset 245760
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 229376 (16384 bytes)
+saved block for piece 1 at offset 229376
+requested piece 1 block at offset 245760
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 245760 (16384 bytes)
+saved block for piece 1 at offset 245760
+received message length: 16393
+message ID: 7 (payload size: 16392 bytes)
+received piece 1 block at offset 245760 (16384 bytes)
+saved block for piece 1 at offset 245760
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 66.56.80.228:38932: connect: connection refused
+error: dial tcp 195.189.181.211:26883: connect: connection refused
+error: dial tcp 188.25.76.66:41432: i/o timeout
+error: dial tcp 91.196.55.150:44004: i/o timeout
+error: dial tcp 91.100.100.129:6881: i/o timeout
+error: dial tcp 185.158.242.84:51413: i/o timeout
+error: dial tcp 193.32.127.220:51473: i/o timeout
+error: dial tcp 186.247.183.116:56614: i/o timeout
+error: dial tcp 77.223.87.21:6881: i/o timeout
+error: dial tcp 146.70.183.138:51413: i/o timeout
+error: dial tcp 84.252.113.7:6881: i/o timeout
+error: dial tcp 149.102.232.149:1: i/o timeout
+error: dial tcp 135.136.55.55:50000: i/o timeout
+error: dial tcp 185.72.109.192:51413: i/o timeout
+error: dial tcp 146.70.226.146:6881: i/o timeout
+error: dial tcp 23.234.117.105:26225: i/o timeout
+error: dial tcp 193.32.249.138:45333: i/o timeout
+error: dial tcp 64.238.204.251:51765: i/o timeout
+error: dial tcp 141.255.166.195:2311: i/o timeout
+error: dial tcp 187.15.114.49:6881: i/o timeout
+received message length: 26
+message ID: 20 (payload size: 25 bytes)
+Unknown message ID: 20
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 0 (payload size: 0 bytes)
+Got Choke reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 78.201.198.200:4010: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: read tcp 192.168.1.17:51802->90.79.139.169:51413: i/o timeout reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 37.19.197.185:6882: connect: connection refused
+error: dial tcp 176.113.74.74:1: connect: connection refused
+error: dial tcp 86.80.59.246:51413: i/o timeout
+error: dial tcp 62.169.136.86:6881: i/o timeout
+error: dial tcp 81.235.5.47:51413: i/o timeout
+error: dial tcp 205.147.16.146:59296: i/o timeout
+error: dial tcp 178.214.255.255:33419: i/o timeout
+error: dial tcp 94.31.118.167:45069: i/o timeout
+error: dial tcp 188.241.177.232:51413: i/o timeout
+error: dial tcp 193.232.254.25:51413: i/o timeout
+error: dial tcp 45.145.111.17:55000: i/o timeout
+error: dial tcp 120.245.86.110:6923: i/o timeout
+error: dial tcp 213.152.162.15:38331: i/o timeout
+error: dial tcp 159.26.108.58:45069: i/o timeout
+error: dial tcp 49.204.112.132:6881: i/o timeout
+error: dial tcp 78.92.228.61:51413: i/o timeout
+error: dial tcp 169.0.88.51:6881: i/o timeout
+error: dial tcp 37.46.196.23:23900: i/o timeout
+error: dial tcp 99.192.99.175:54000: i/o timeout
+error: dial tcp 77.179.29.177:58283: i/o timeout
+error: dial tcp 95.167.114.158:42073: i/o timeout
+error: dial tcp 31.41.124.218:14111: i/o timeout
+error: dial tcp 90.254.223.88:6983: i/o timeout
+error: dial tcp 82.64.185.173:51413: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 0
+received message length: 0
+received message length: 0
+received message length: 0
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 51.159.132.97:54147: connect: connection refused
+error: dial tcp 51.91.58.45:51413: connect: connection refused
+error: dial tcp 178.49.24.237:6881: i/o timeout
+error: dial tcp 49.148.247.122:37966: i/o timeout
+error: dial tcp 141.253.101.139:51413: i/o timeout
+error: dial tcp 114.10.43.144:25614: i/o timeout
+error: dial tcp 31.32.247.210:51413: i/o timeout
+error: dial tcp 99.126.154.159:20382: i/o timeout
+error: dial tcp 83.38.150.9:48671: i/o timeout
+error: dial tcp 94.185.80.230:51413: i/o timeout
+error: dial tcp 112.20.110.18:6881: i/o timeout
+error: dial tcp 90.191.98.68:31176: i/o timeout
+error: dial tcp 157.211.49.174:21529: i/o timeout
+error: dial tcp 188.214.125.164:37966: i/o timeout
+error: dial tcp 204.195.120.49:36001: i/o timeout
+error: dial tcp 142.182.153.62:63385: i/o timeout
+error: dial tcp 86.88.242.28:38153: i/o timeout
+error: dial tcp 73.188.248.20:16881: i/o timeout
+error: dial tcp 145.79.182.59:51413: i/o timeout
+error: dial tcp 37.19.210.8:62615: i/o timeout
+error: dial tcp 47.5.136.82:34936: i/o timeout
+error: dial tcp 158.47.250.249:45347: i/o timeout
+error: dial tcp 190.5.32.152:38753: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 128.140.124.108:8999: connect: connection refused
+error: dial tcp 92.63.67.150:51413: i/o timeout
+error: dial tcp 181.215.172.221:16444: i/o timeout
+error: dial tcp 185.98.171.86:46519: i/o timeout
+error: dial tcp 158.47.250.249:44699: i/o timeout
+error: dial tcp 152.58.139.86:35856: i/o timeout
+error: dial tcp 186.247.163.17:60592: i/o timeout
+error: dial tcp 89.244.85.25:59595: i/o timeout
+error: dial tcp 124.34.209.96:51413: i/o timeout
+error: dial tcp 95.31.163.102:26967: i/o timeout
+error: dial tcp 205.147.16.222:54520: i/o timeout
+error: dial tcp 79.127.187.162:6881: i/o timeout
+error: dial tcp 142.182.129.145:51413: i/o timeout
+error: dial tcp 94.134.105.124:20222: i/o timeout
+error: dial tcp 89.247.172.134:51413: i/o timeout
+error: dial tcp 201.105.93.18:51413: i/o timeout
+error: dial tcp 86.76.113.45:52612: i/o timeout
+error: dial tcp 82.67.216.4:6318: i/o timeout
+error: dial tcp 89.160.22.48:6881: i/o timeout
+error: dial tcp 108.162.140.52:46519: i/o timeout
+error: dial tcp 88.196.134.159:54299: i/o timeout
+error: dial tcp 217.136.137.99:28837: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 82.67.80.229:18791: i/o timeout
+error: dial tcp 146.70.166.230:22433: i/o timeout
+error: dial tcp 138.201.205.73:52835: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 31.44.3.34:39454: connect: connection refused
+error: dial tcp 46.110.111.80:17594: connect: no route to host
+error: dial tcp 152.173.81.138:65411: connect: connection refused
+error: dial tcp 114.103.244.141:22634: connect: connection refused
+error: dial tcp 14.243.139.252:6881: connect: connection refused
+error: dial tcp 76.25.202.44:6881: i/o timeout
+error: dial tcp 45.83.220.222:6881: i/o timeout
+error: dial tcp 162.203.204.97:59130: i/o timeout
+error: dial tcp 68.55.194.219:31112: i/o timeout
+error: dial tcp 213.152.161.203:17570: i/o timeout
+error: dial tcp 109.124.197.95:64983: i/o timeout
+error: dial tcp 104.53.151.228:6881: i/o timeout
+error: dial tcp 96.228.39.143:51413: i/o timeout
+error: dial tcp 160.155.215.188:6881: i/o timeout
+error: dial tcp 185.230.125.4:57880: i/o timeout
+error: dial tcp 79.242.174.197:64795: i/o timeout
+error: dial tcp 146.70.217.87:6881: i/o timeout
+error: dial tcp 212.32.207.30:48078: i/o timeout
+error: dial tcp 179.60.52.211:20719: i/o timeout
+error: dial tcp 146.241.122.101:6881: i/o timeout
+error: dial tcp 37.99.43.232:50000: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 217.155.0.164:42069: connect: no route to host
+error: dial tcp 159.26.104.131:64794: i/o timeout
+error: dial tcp 94.111.2.116:51413: i/o timeout
+error: dial tcp 89.134.6.209:6881: i/o timeout
+error: dial tcp 98.111.113.41:19039: i/o timeout
+error: dial tcp 117.181.168.107:29455: i/o timeout
+error: dial tcp 99.246.137.15:6881: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 94.75.64.138:51413: i/o timeout
+error: dial tcp 47.26.150.13:61065: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 24.99.8.181:57769: i/o timeout
+error: dial tcp 5.18.88.172:40932: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 217.63.30.7:6888: connect: connection refused
+error: dial tcp 69.161.126.28:49161: connect: connection refused
+error: dial tcp 107.174.65.25:52188: connect: connection refused
+error: dial tcp 178.51.189.69:53728: i/o timeout
+error: dial tcp 91.148.236.72:51413: i/o timeout
+error: dial tcp 89.150.145.142:41765: i/o timeout
+error: dial tcp 193.138.218.218:51413: i/o timeout
+error: dial tcp 92.209.222.151:51413: i/o timeout
+error: dial tcp 103.214.20.133:51413: i/o timeout
+error: dial tcp 187.250.117.24:17779: i/o timeout
+error: dial tcp 185.65.134.203:1: i/o timeout
+error: dial tcp 195.211.1.188:51413: i/o timeout
+error: dial tcp 95.31.252.33:51413: i/o timeout
+error: dial tcp 88.207.17.51:28503: i/o timeout
+error: dial tcp 195.34.207.104:51413: i/o timeout
+error: dial tcp 5.77.202.21:27284: i/o timeout
+error: dial tcp 31.169.53.67:51296: i/o timeout
+error: dial tcp 88.188.228.82:25241: i/o timeout
+error: dial tcp 95.62.217.219:2185: i/o timeout
+error: dial tcp 188.75.159.82:6881: i/o timeout
+error: dial tcp 187.14.92.83:20563: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 188.214.106.179:6881: i/o timeout
+error: dial tcp 121.200.5.217:11804: i/o timeout
+error: dial tcp 71.30.132.124:16881: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 109.252.119.182:19488: i/o timeout
+error: dial tcp 124.171.144.230:6881: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 219.79.195.6:50043: connect: connection refused
+error: dial tcp 85.65.84.76:6881: i/o timeout
+error: dial tcp 82.66.190.32:51413: i/o timeout
+error: dial tcp 23.234.93.80:1468: i/o timeout
+error: dial tcp 93.242.59.219:51413: i/o timeout
+error: dial tcp 78.137.12.235:59950: i/o timeout
+error: dial tcp 152.233.51.13:17583: i/o timeout
+error: dial tcp 189.89.15.22:54682: i/o timeout
+error: dial tcp 184.75.221.107:17188: i/o timeout
+error: dial tcp 212.85.93.100:51413: i/o timeout
+error: dial tcp 89.208.81.170:44147: i/o timeout
+error: dial tcp 178.249.211.102:10741: i/o timeout
+error: dial tcp 14.187.78.172:51414: i/o timeout
+error: dial tcp 66.175.178.80:6881: i/o timeout
+error: dial tcp 177.207.207.230:11126: i/o timeout
+error: dial tcp 49.36.211.91:1727: i/o timeout
+error: dial tcp 185.65.135.247:22663: i/o timeout
+error: dial tcp 37.214.31.173:25009: i/o timeout
+error: dial tcp 194.127.167.101:58342: i/o timeout
+error: dial tcp 149.88.24.207:51413: i/o timeout
+error: dial tcp 84.2.223.60:17580: i/o timeout
+error: dial tcp 195.177.93.84:21649: i/o timeout
+error: dial tcp 185.153.39.26:18251: i/o timeout
+error: dial tcp 50.92.89.146:51413: i/o timeout
+error: dial tcp 77.20.151.170:51413: i/o timeout
+error: dial tcp 62.122.128.64:24665: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 0 (payload size: 0 bytes)
+Got Choke reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 136.158.27.158:19636: connect: connection refused
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 5.228.186.149:52366: connect: connection refused
+error: dial tcp 45.198.151.66:6881: i/o timeout
+error: dial tcp 149.88.98.71:6881: i/o timeout
+error: dial tcp 189.130.255.87:51765: i/o timeout
+error: dial tcp 83.83.19.205:44769: i/o timeout
+error: dial tcp 78.125.51.59:47181: i/o timeout
+error: dial tcp 82.21.158.55:1194: i/o timeout
+error: dial tcp 79.140.115.57:61598: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 185.90.57.146:47422: connect: connection refused
+error: dial tcp 146.70.183.138:63355: i/o timeout
+error: dial tcp 217.113.63.161:43486: i/o timeout
+error: dial tcp 187.14.231.20:6881: i/o timeout
+error: dial tcp 95.24.73.91:32975: i/o timeout
+error: dial tcp 80.67.8.139:63044: i/o timeout
+error: dial tcp 188.168.155.193:50260: i/o timeout
+error: dial tcp 171.37.46.214:51413: i/o timeout
+error: dial tcp 138.199.60.176:51413: i/o timeout
+error: dial tcp 178.141.54.108:51413: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 217.65.139.69:37103: connect: connection refused
+error: dial tcp 91.189.241.69:1720: connect: connection refused
+error: dial tcp 72.211.128.243:43052: i/o timeout
+error: dial tcp 185.230.178.23:63016: i/o timeout
+error: dial tcp 31.18.223.236:29437: i/o timeout
+error: dial tcp 213.135.229.98:51413: i/o timeout
+error: dial tcp 188.192.164.132:23068: i/o timeout
+error: dial tcp 178.174.238.217:50413: i/o timeout
+error: dial tcp 155.117.189.80:55706: i/o timeout
+error: dial tcp 216.244.70.3:51413: i/o timeout
+error: dial tcp 161.129.60.77:16881: i/o timeout
+error: dial tcp 185.195.232.211:65515: i/o timeout
+error: dial tcp 213.24.133.59:51765: i/o timeout
+error: dial tcp 85.113.137.136:52201: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 92.180.224.160:6881: i/o timeout
+error: dial tcp 168.90.153.55:6881: i/o timeout
+error: dial tcp 146.70.86.116:6881: i/o timeout
+error: dial tcp 159.26.107.94:37103: i/o timeout
+error: dial tcp 45.184.56.154:51413: i/o timeout
+error: dial tcp 70.16.236.53:21834: i/o timeout
+error: dial tcp 37.232.171.242:14101: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 31.46.242.113:55388: i/o timeout
+error: dial tcp 188.94.33.148:19370: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
+Connection error: EOF reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 89.47.234.26:1: connect: connection refused
+error: dial tcp 146.70.244.98:8389: connect: no route to host
+error: dial tcp 65.94.251.36:51413: i/o timeout
+error: dial tcp 79.112.78.23:16800: i/o timeout
+error: dial tcp 149.88.103.80:57179: i/o timeout
+error: dial tcp 85.17.183.144:5002: i/o timeout
+error: dial tcp 66.234.146.76:5173: i/o timeout
+error: dial tcp 81.221.71.101:47189: i/o timeout
+error: dial tcp 37.181.103.250:16196: i/o timeout
+error: dial tcp 160.120.118.129:29019: i/o timeout
+error: dial tcp 159.26.103.143:6881: i/o timeout
+error: dial tcp 86.104.23.164:44449: i/o timeout
+error: dial tcp 83.21.229.241:6881: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 0
+Connection error: read tcp 192.168.1.17:47060->62.210.131.208:32535: i/o timeout reconnecting to a new peer
+Announce 0 got 50 peers
+error: dial tcp 93.181.78.138:6881: connect: connection refused
+error: dial tcp 37.214.35.186:6881: connect: connection refused
+error: dial tcp 95.85.224.79:62350: connect: connection refused
+error: dial tcp 37.77.104.22:51413: connect: connection refused
+error: dial tcp 100.15.132.191:51765: i/o timeout
+error: dial tcp 187.190.220.103:51413: i/o timeout
+error: dial tcp 5.228.80.226:51413: i/o timeout
+error: dial tcp 23.234.122.126:51413: i/o timeout
+error: dial tcp 172.11.12.93:49467: i/o timeout
+error: dial tcp 94.114.246.94:6889: i/o timeout
+error: dial tcp 146.70.226.241:53518: i/o timeout
+error: dial tcp 99.121.0.235:41060: i/o timeout
+error: dial tcp 85.75.12.154:26802: i/o timeout
+error: dial tcp 187.13.197.37:6936: i/o timeout
+error: dial tcp 182.189.7.146:44921: i/o timeout
+error: dial tcp 212.92.104.227:58929: i/o timeout
+error: dial tcp 95.173.217.23:61212: i/o timeout
+error: dial tcp 131.108.157.171:50413: i/o timeout
+error: dial tcp 213.176.78.90:15207: i/o timeout
+error: dial tcp 84.1.171.176:6881: i/o timeout
+error: dial tcp 81.23.183.139:63219: i/o timeout
+error: dial tcp 77.50.63.173:41874: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 83.34.54.2:50852: i/o timeout
+handshake error: handshake read failed after 0 bytes: EOF, retrying
+Announce 0 got 50 peers
+error: dial tcp 77.175.154.130:6881: i/o timeout
+error: dial tcp 91.66.59.21:6881: i/o timeout
+received message length: 379
+message ID: 5 (payload size: 378 bytes)
+received bitfield
+sent Interested!
+received message length: 1
+message ID: 1 (payload size: 0 bytes)
+got unchoke, requesting one piece
