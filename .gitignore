@@ -1,1 +1,6 @@
 *.torrent
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
