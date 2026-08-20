@@ -1,0 +1,5 @@
+- [ ] go cli client (insert torrent file, output file selection, logs section, peers, download, upload)
+- [ ] dht
+- [ ] pex
+- [ ] magnet links
+- [ ] upload/seeding

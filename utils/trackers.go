@@ -86,6 +86,7 @@ func GetUDPPeers(torrent *core.TorrentMetaData , announceFragments *AnounceFragm
 		return nil, err
 	}
 	bufRes := make([]byte, 16)
+
 	conn.SetDeadline(time.Now().Add(5 * time.Second))
 	_, err = conn.Read(bufRes)
 	if err!=nil{
@@ -162,34 +163,37 @@ func GetUDPPeers(torrent *core.TorrentMetaData , announceFragments *AnounceFragm
 			return nil, fmt.Errorf("error: response too short: %d bytes\n", n)
 		}
 
-		// action := binary.BigEndian.Uint32(bufAnnResHeader[0:4])
-		// transactionIDRes := binary.BigEndian.Uint32(bufAnnResHeader[4:8])
-		// interval := binary.BigEndian.Uint32(bufAnnResHeader[8:12])
-		// leechers := binary.BigEndian.Uint32(bufAnnResHeader[12:16])
-		// seeders := binary.BigEndian.Uint32(bufAnnResHeader[16:20])
-		// fmt.Printf("Announce response header: action=%d, transaction=%d\n", 
-		// 		binary.BigEndian.Uint32(bufAnnResHeader[0:4]),
-		// 		binary.BigEndian.Uint32(bufAnnResHeader[4:8]))
-		bufAnnResPeersList := make([]byte, 1024)
-		conn.SetDeadline(time.Now().Add(5 * time.Second))
-		n2, err := conn.Read(bufAnnResPeersList)
-		if err != nil {
-			fmt.Printf("error: %s\n", err)
-			return nil, err
+		var allPeersData []byte
+    	readBuf := make([]byte, 4096)
+
+		for {
+			conn.SetDeadline(time.Now().Add(5 * time.Second))
+			n, err := conn.Read(readBuf)
+			if err != nil {
+				if err == io.EOF {
+					break
+				}
+				return nil, err
+			}
+			if n == 0 {
+				break
+			}
+			allPeersData = append(allPeersData, readBuf[:n]...)
+			if n < len(readBuf) {
+				break
+			}
 		}
 		
-		for i:=0 ; i+6 <= n2; i+=6  {
-			ipBytes := bufAnnResPeersList[i: i+4]
-			portBytes := bufAnnResPeersList[i+4: i+6]
-					
+		for i := 0; i+6 <= len(allPeersData); i += 6 {
+			ipBytes := allPeersData[i : i+4]
+			portBytes := allPeersData[i+4 : i+6]
 			ip := net.IP(ipBytes).String()
-    		port := binary.BigEndian.Uint16(portBytes)
-
+			port := binary.BigEndian.Uint16(portBytes)
 			peers = append(peers, PeerNode{
-				Ip: ip,
+				Ip:   ip,
 				Port: strconv.Itoa(int(port)),
 			})
-		}
+   	 }
 
 		
 	}
