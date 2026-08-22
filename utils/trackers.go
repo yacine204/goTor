@@ -13,6 +13,7 @@ import (
 	"sync"
 	"time"
 	"torrent/core"
+	
 )
 
 
@@ -226,11 +227,11 @@ func GetHTTPsPeers(torrent *core.TorrentMetaData, announce string) ([]PeerNode, 
 		return nil, err
 	}
 	pos := 0
-	bencodeNode, err := ParseValue(bodyRes, &pos)
+	bencodeNode, err := core.ParseValue(bodyRes, &pos)
 	if err!=nil{
 		return nil, err
 	}
-	if bencodeNode.Kind != KindDict {
+	if bencodeNode.Kind != core.KindDict {
 		return nil, fmt.Errorf("error: response is not a dictionary\n")
 	}
 	if failureNode, ok := bencodeNode.Dict["failure reason"]; ok {
@@ -242,21 +243,21 @@ func GetHTTPsPeers(torrent *core.TorrentMetaData, announce string) ([]PeerNode, 
     	return nil , fmt.Errorf("error: no peers in response\n")
 	}
 	var peers  []PeerNode
-	if peersNode.Kind == KindString{
+	if peersNode.Kind == core.KindString{
 		peersData := []byte(peersNode.Str)
 		for i := 0; i+6 <= len(peersData); i += 6 {
 			ip := net.IP(peersData[i:i+4]).String()
 			port := binary.BigEndian.Uint16(peersData[i+4:i+6])
 			peers = append(peers, PeerNode{Ip: ip, Port: strconv.Itoa(int(port))})
 		}
-	}else if peersNode.Kind == KindList{
+	}else if peersNode.Kind == core.KindList{
 		for _, peerNode := range peersNode.List{
-			if peerNode.Kind == KindDict{
+			if peerNode.Kind == core.KindDict{
 				var ip, port string
-				if ipNode, ok := peerNode.Dict["ip"]; ok && ipNode.Kind == KindString{
+				if ipNode, ok := peerNode.Dict["ip"]; ok && ipNode.Kind == core.KindString{
 					ip = ipNode.Str
 				}
-				if portNode, ok := peerNode.Dict["port"]; ok && portNode.Kind == KindInt {
+				if portNode, ok := peerNode.Dict["port"]; ok && portNode.Kind == core.KindInt {
 					port = strconv.Itoa(int(portNode.Int))
 				}
 				if ip != "" && port != "" {

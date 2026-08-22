@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"time"
-	"torrent/utils"
+	"torrent/core"
 )
 
 func main() {
@@ -72,51 +71,38 @@ func main() {
 	}
 	defer logFile.Close()
 
-	origStdout := os.Stdout
-	r, w, _ := os.Pipe()
-	os.Stdout = w
-
-	go func(){
-		io.Copy(io.MultiWriter(origStdout, logFile), r)
-	}()
+	// origStdout := os.Stdout
+	// r, w, _ := os.Pipe()
+	// os.Stdout = w
+	// go func(){
+	// 	io.Copy(io.MultiWriter(origStdout, logFile), r)
+	// }()
 	
-	file, err := os.Open(torrentFile)
-	if err != nil {
-		log.Fatal(err)
+	data, err := os.ReadFile(torrentFile)
+	if err!=nil{
+		log.Fatalf("error: %s", err)
 	}
-	defer file.Close()
-
-	fileInfo, err := file.Stat()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fileSize := fileInfo.Size()
-	data := make([]byte, fileSize)
-	_, err = file.Read(data)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	pos := 0
-	metadata, err := utils.BuildMetaData(data, pos)
+	metadata, err := core.BuildMetaData(data, pos)
 	if err != nil {
 		log.Fatalf("failed to parse torrent: %s", err)
 	}
 
-	peerConn, err := utils.ConnectAndHandshake(metadata)
-	if err != nil {
-		fmt.Printf("Failed to connect: %s\n", err)
-		return
-	}
+	core.InitTorrentFileOutput(metadata.Info)
+	// peerConn, err := utils.ConnectAndHandshake(metadata)
+	// if err != nil {
+	// 	fmt.Printf("Failed to connect: %s\n", err)
+	// 	return
+	// }
 
-	fmt.Printf("Connected to peer: %s:%s\n", peerConn.Peer.Ip, peerConn.Peer.Port)
-	fmt.Println("Handshake successful!")
+	// fmt.Printf("Connected to peer: %s:%s\n", peerConn.Peer.Ip, peerConn.Peer.Port)
+	// fmt.Println("Handshake successful!")
 
-	numPieces := len(metadata.Info.Pieces)
-	piecesCheck := make(map[int]bool, numPieces)
-	for i := 0; i < numPieces; i++ {
-		piecesCheck[i] = false
-	}
+	// numPieces := len(metadata.Info.Pieces)
+	// piecesCheck := make(map[int]bool, numPieces)
+	// for i := 0; i < numPieces; i++ {
+	// 	piecesCheck[i] = false
+	// }
 
-	utils.BitLoop(peerConn, metadata, piecesCheck, downloadPath)
+	// utils.BitLoop(peerConn, metadata, piecesCheck, downloadPath)
 }

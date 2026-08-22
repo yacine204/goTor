@@ -304,6 +304,7 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 			}
 
 			err := os.WriteFile(fmt.Sprintf("%s/piece_%d_block_%d", downloadPath, pieceIndex, begin), data, 0644)
+			
 			if err != nil {
 				fmt.Printf("error saving block: %s\n", err)
 				break
