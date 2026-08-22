@@ -8,7 +8,6 @@ import (
 	"io"
 	"math/rand/v2"
 	"net"
-	"os"
 	"sync"
 	"time"
 	"torrent/core"
@@ -183,6 +182,7 @@ func BitTorrentHandShake(peer *PeerConn, torrent *core.TorrentMetaData) (*net.Co
 
 func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[int]bool, downloadPath string) {
 	receivedBlocks := make(map[int]map[int]bool)
+	pendingRequests := make(map[int]map[int]bool)
 
 	reconnect := func(reason string) bool {
 		fmt.Printf("%s reconnecting to a new peer\n", reason)
@@ -199,6 +199,7 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 
 		*peerConn = *newPeer
 		receivedBlocks = make(map[int]map[int]bool)
+		pendingRequests = make(map[int]map[int]bool)
 		return true
 	}
 
@@ -247,7 +248,7 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 			fmt.Println("peer requested a piece")
 			pieceIdx := binary.BigEndian.Uint32(payload[0:4])
 			if piecesCheck[int(pieceIdx)] {
-				sendPiece(peerConn, int(pieceIdx), downloadPath)
+				sendPiece(peerConn, torrent, int(pieceIdx), downloadPath)
 			}
 
 		case byte(Bitfield):
@@ -279,7 +280,7 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 			numPieces := len(torrent.Info.Pieces)
 			for i := 0; i < numPieces; i++ {
 				if !piecesCheck[i] {
-					sendRequest(torrent, peerConn, i, downloadPath)
+					sendRequest(torrent, peerConn, i, downloadPath, receivedBlocks, pendingRequests)
 					break
 				}
 			}
@@ -288,7 +289,7 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 			pieceIndex := int(binary.BigEndian.Uint32(payload[0:4]))
 			fmt.Printf("peer has piece %d\n", pieceIndex)
 			if !piecesCheck[pieceIndex] {
-				sendRequest(torrent, peerConn, pieceIndex, downloadPath)
+				sendRequest(torrent, peerConn, pieceIndex, downloadPath, receivedBlocks, pendingRequests)
 			}
 
 		case byte(Piece):
@@ -303,42 +304,40 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 				break
 			}
 
-			err := os.WriteFile(fmt.Sprintf("%s/piece_%d_block_%d", downloadPath, pieceIndex, begin), data, 0644)
-			
-			if err != nil {
-				fmt.Printf("error saving block: %s\n", err)
-				break
+			if pendingRequests[pieceIndex] != nil {
+				delete(pendingRequests[pieceIndex], begin)
 			}
-			fmt.Printf("saved block for piece %d at offset %d\n", pieceIndex, begin)
 
 			if receivedBlocks[pieceIndex] == nil {
 				receivedBlocks[pieceIndex] = make(map[int]bool)
 			}
 			receivedBlocks[pieceIndex][begin] = true
 
+			success := WritePieceToFile(torrent, pieceIndex, data, downloadPath)
+			
+			if !success{
+				fmt.Printf("error saving block: %s\n", err)
+				break
+			}
+			fmt.Printf("saved block for piece %d at offset %d\n", pieceIndex, begin)
+
 			pieceLength := int(torrent.Info.Piece_length)
 			blockSize := 16384
 			totalBlocks := (pieceLength + blockSize - 1) / blockSize
 
 			if len(receivedBlocks[pieceIndex]) < totalBlocks {
-				sendRequest(torrent, peerConn, pieceIndex, downloadPath)
+				sendRequest(torrent, peerConn, pieceIndex, downloadPath, receivedBlocks, pendingRequests)
 				break
 			}
 
 			fmt.Printf("piece %d is complete\n", pieceIndex)
 
-			fullPiece := []byte{}
-			blockReadFailed := false
-			for offset := 0; offset < pieceLength; offset += blockSize {
-				blockData, err := os.ReadFile(fmt.Sprintf("%s/piece_%d_block_%d", downloadPath, pieceIndex, offset))
-				if err != nil {
-					fmt.Printf("missing block at offset %d\n", offset)
-					blockReadFailed = true
-					break
-				}
-				fullPiece = append(fullPiece, blockData...)
-			}
-			if blockReadFailed {
+			fullPiece := ReadPieceFromFiles(torrent, pieceIndex, downloadPath)
+			if len(fullPiece) == 0 {
+				fmt.Printf("failed to read piece %d from files\n", pieceIndex)
+				delete(receivedBlocks, pieceIndex)
+				delete(pendingRequests, pieceIndex)
+				sendRequest(torrent, peerConn, pieceIndex, downloadPath, receivedBlocks, pendingRequests)
 				break
 			}
 
@@ -351,27 +350,24 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 			if !bytes.Equal(hash, expectedHash[:]) {
 				fmt.Printf("piece %d verification failed, re-requesting...\n", pieceIndex)
 				delete(receivedBlocks, pieceIndex)
-				sendRequest(torrent, peerConn, pieceIndex, downloadPath)
+				delete(pendingRequests, pieceIndex)
+				sendRequest(torrent, peerConn, pieceIndex, downloadPath, receivedBlocks, pendingRequests)
 				break
 			}
 
 			fmt.Printf("piece %d verified!\n", pieceIndex)
 
-			err = os.WriteFile(fmt.Sprintf("%s/piece_%d", downloadPath, pieceIndex), fullPiece, 0644)
-			if err != nil {
-				fmt.Printf("error saving piece: %s\n", err)
-				break
-			}
-
+			// err = os.WriteFile(fmt.Sprintf("%s/piece_%d", downloadPath, pieceIndex), fullPiece, 0644)
+			
 			piecesCheck[pieceIndex] = true
 			sendHave(peerConn, pieceIndex)
 			delete(receivedBlocks, pieceIndex)
-
+			delete(pendingRequests, pieceIndex)
 			numPieces := len(torrent.Info.Pieces)
 			for i := 0; i < numPieces; i++ {
 				if !piecesCheck[i] {
 					fmt.Printf("requesting next piece: %d\n", i)
-					sendRequest(torrent, peerConn, i, downloadPath)
+					sendRequest(torrent, peerConn, i, downloadPath, receivedBlocks, pendingRequests)
 					break
 				}
 			}
@@ -394,14 +390,28 @@ func BitLoop(peerConn *PeerConn, torrent *core.TorrentMetaData, piecesCheck map[
 	}
 }
 
-func sendRequest(torrent *core.TorrentMetaData, peerConn *PeerConn, pieceIdx int, downloadPath string) {
+func sendRequest(torrent *core.TorrentMetaData, peerConn *PeerConn, pieceIdx int, downloadPath string, receivedBlocks map[int]map[int]bool,
+	pendingRequests map[int]map[int]bool) {
+
 	blockSize := 16384
 	pieceLength := int(torrent.Info.Piece_length)
 
-	for begin := 0; begin < pieceLength; begin += blockSize {
 
-		blockFile := fmt.Sprintf("%s/piece_%d_block_%d", downloadPath, pieceIdx, begin)
-		if _, err := os.Stat(blockFile); err == nil {
+	const maxRequests = 20
+	requested := 0
+
+	for begin := 0; begin < pieceLength && requested < maxRequests; begin += blockSize {
+
+		// blockFile := fmt.Sprintf("%s/piece_%d_block_%d", downloadPath, pieceIdx, begin)
+		// if _, err := os.Stat(blockFile); err == nil {
+		// 	continue
+		// }
+
+		if receivedBlocks[pieceIdx] != nil && receivedBlocks[pieceIdx][begin] {
+            continue  
+        }
+
+		if pendingRequests[pieceIdx] != nil && pendingRequests[pieceIdx][begin] {
 			continue
 		}
 
@@ -419,7 +429,11 @@ func sendRequest(torrent *core.TorrentMetaData, peerConn *PeerConn, pieceIdx int
 		peerConn.Conn.Write(msg)
 		fmt.Printf("requested piece %d block at offset %d\n", pieceIdx, begin)
 
-		break
+		if pendingRequests[pieceIdx] == nil {
+			pendingRequests[pieceIdx] = make(map[int]bool)
+		}
+		pendingRequests[pieceIdx][begin] = true
+		requested++
 	}
 }
 
@@ -437,30 +451,33 @@ func sendNotInterested(peerConn *PeerConn) {
 	peerConn.Conn.Write(msg)
 }
 
-func sendPiece(peerConn *PeerConn, pieceIndex int, filePath string) {
-	data, err := os.ReadFile(fmt.Sprintf("%s/piece_%d", filePath, pieceIndex))
-	if err != nil {
-		return
-	}
+func sendPiece(peerConn *PeerConn, torrent *core.TorrentMetaData, pieceIndex int, downloadPath string) {
+    fullPiece := ReadPieceFromFiles(torrent, pieceIndex, downloadPath)
+    if len(fullPiece) == 0 {
+        fmt.Printf("Piece %d not available to send\n", pieceIndex)
+        return
+    }
 
-	blockSize := 16384
+    blockSize := 16384
 
-	for begin := 0; begin < len(data); begin += blockSize {
-		end := begin + blockSize
-		if end > len(data) {
-			end = len(data)
-		}
-		block := data[begin:end]
+    for begin := 0; begin < len(fullPiece); begin += blockSize {
+        end := begin + blockSize
+        if end > len(fullPiece) {
+            end = len(fullPiece)
+        }
+        block := fullPiece[begin:end]
 
-		msg := make([]byte, 13+len(block))
-		binary.BigEndian.PutUint32(msg[0:4], uint32(9+len(block)))
-		msg[4] = byte(Piece)
-		binary.BigEndian.PutUint32(msg[5:9], uint32(pieceIndex))
-		binary.BigEndian.PutUint32(msg[9:13], uint32(begin))
-		copy(msg[13:], block)
-		peerConn.Conn.Write(msg)
-	}
+        msg := make([]byte, 13+len(block))
+        binary.BigEndian.PutUint32(msg[0:4], uint32(9+len(block)))
+        msg[4] = byte(Piece)
+        binary.BigEndian.PutUint32(msg[5:9], uint32(pieceIndex))
+        binary.BigEndian.PutUint32(msg[9:13], uint32(begin))
+        copy(msg[13:], block)
+        peerConn.Conn.Write(msg)
+    }
+    fmt.Printf("Sent piece %d (%d bytes) to peer\n", pieceIndex, len(fullPiece))
 }
+
 
 func sendHave(peerConn *PeerConn, pieceIndex int) {
 	msg := make([]byte, 9)

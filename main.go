@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"time"
 	"torrent/core"
+	"torrent/utils"
+	"io"
 )
 
 func main() {
@@ -71,12 +73,12 @@ func main() {
 	}
 	defer logFile.Close()
 
-	// origStdout := os.Stdout
-	// r, w, _ := os.Pipe()
-	// os.Stdout = w
-	// go func(){
-	// 	io.Copy(io.MultiWriter(origStdout, logFile), r)
-	// }()
+	origStdout := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+	go func(){
+		io.Copy(io.MultiWriter(origStdout, logFile), r)
+	}()
 	
 	data, err := os.ReadFile(torrentFile)
 	if err!=nil{
@@ -88,21 +90,21 @@ func main() {
 		log.Fatalf("failed to parse torrent: %s", err)
 	}
 
-	core.InitTorrentFileOutput(metadata.Info)
-	// peerConn, err := utils.ConnectAndHandshake(metadata)
-	// if err != nil {
-	// 	fmt.Printf("Failed to connect: %s\n", err)
-	// 	return
-	// }
+	core.InitTorrentFileOutput(metadata.Info, downloadPath)
+	peerConn, err := utils.ConnectAndHandshake(metadata)
+	if err != nil {
+		fmt.Printf("Failed to connect: %s\n", err)
+		return
+	}
 
-	// fmt.Printf("Connected to peer: %s:%s\n", peerConn.Peer.Ip, peerConn.Peer.Port)
-	// fmt.Println("Handshake successful!")
+	fmt.Printf("Connected to peer: %s:%s\n", peerConn.Peer.Ip, peerConn.Peer.Port)
+	fmt.Println("Handshake successful!")
 
-	// numPieces := len(metadata.Info.Pieces)
-	// piecesCheck := make(map[int]bool, numPieces)
-	// for i := 0; i < numPieces; i++ {
-	// 	piecesCheck[i] = false
-	// }
+	numPieces := len(metadata.Info.Pieces)
+	piecesCheck := make(map[int]bool, numPieces)
+	for i := 0; i < numPieces; i++ {
+		piecesCheck[i] = false
+	}
 
-	// utils.BitLoop(peerConn, metadata, piecesCheck, downloadPath)
+	utils.BitLoop(peerConn, metadata, piecesCheck, downloadPath)
 }

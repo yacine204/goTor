@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -33,13 +34,12 @@ type FileItem struct{
 
 
 
-func InitTorrentFileOutput(torrent *Info) {
-	root := torrent.Name
-	os.Mkdir(torrent.Name, 0755)
-	if len(torrent.Pieces) == 0{
+func InitTorrentFileOutput(torrent *Info, downloadPath string) {
+	root := path.Join(downloadPath, torrent.Name)
+	os.Mkdir(root, 0755)
+	if len(torrent.Files) == 0{
 		filePath := filepath.Join(torrent.Name,torrent.Name)
 		file, err := os.Create(filePath)
-		err = file.Truncate(torrent.Length)
 		err = file.Truncate(torrent.Length)
 		
 		if err!=nil{
@@ -50,7 +50,7 @@ func InitTorrentFileOutput(torrent *Info) {
 		for _, file := range torrent.Files{
 			fullPath := filepath.Join(append([]string{root}, file.FilePath...)...)
 			parentDir := filepath.Dir(fullPath)
-			if parentDir!=root || parentDir!= "."{
+			if parentDir!=root && parentDir!= "."{
 				if err:=os.MkdirAll(parentDir, 0755); err!=nil{
 					fmt.Printf("err creating directory %s: %s\n", parentDir, err)
                     continue
@@ -156,7 +156,7 @@ func BuildMetaData(buffer []byte,depth int) (*TorrentMetaData, error){
 			
 			for i := range infoData.Files{
 				infoData.Files[i].Offset = offset
-				offset+=infoData.Files[i].Offset
+				offset+=infoData.Files[i].Length
 			}
 		}
 		metadata.Info = infoData
